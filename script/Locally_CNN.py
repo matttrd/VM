@@ -1,19 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Apr 13 15:48:58 2017
-
-@author: Matteo
-"""
-
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 22 16:00:59 2016
-
-@author: chiara
-
-Train recurrent convolutional network 
-"""
 from __future__ import print_function
 import numpy as np
 import pandas as pd
@@ -64,7 +48,7 @@ X_new = f.fit_transform(data_X_1, np.repeat(data_Y,54))
 #PCA
 k = 10
 pca = PCA(n_components= k)
-X_new = pca.fit_transform(data_X_1) 
+X_new = pca.fit_transform(data_X_1)
 data_X = np.reshape(X_new,(1747,54,k))
 
 ##%%
@@ -98,7 +82,7 @@ a2 = 4
 a3 = 4
 am = 2
 am2 = 2
-am3 = 2    
+am3 = 2
 batch_size = 32
 epochs = 30
 n_dense_1 = 50
@@ -109,45 +93,45 @@ n_dense_2 = 20
 model = Sequential()
 model.add(LocallyConnected1D(filter_depth,
                  kernel_size= a,
-                 activation='relu', 
-                 strides=2, 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides=2,
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None,
                  input_shape=(k,54)))
 #model.add(BatchNormalization(axis = -1))
 model.add(AveragePooling1D(pool_size=am))
 #model.add(LocallyConnected1D(filter_depth2,
 #                 kernel_size=(a2),
-#                 activation='relu', 
+#                 activation='relu',
 #                 strides=2,
-#                 use_bias=True, 
-#                 kernel_initializer='glorot_uniform', 
-#                 bias_initializer='zeros', 
-##                 kernel_regularizer=None, 
-##                 bias_regularizer=None, 
-##                 activity_regularizer=None, 
-##                 kernel_constraint=None, 
+#                 use_bias=True,
+#                 kernel_initializer='glorot_uniform',
+#                 bias_initializer='zeros',
+##                 kernel_regularizer=None,
+##                 bias_regularizer=None,
+##                 activity_regularizer=None,
+##                 kernel_constraint=None,
 ##                 bias_constraint=None
 #))
 #model.add(BatchNormalization(axis = -1))
 #model.add(AveragePooling1D(pool_size=am2))
 #model.add(LocallyConnected1D(filter_depth3,
 #                 kernel_size=a3,
-#                 activation='relu', 
-#                 strides=2, 
-#                 use_bias=True, 
-#                 kernel_initializer='glorot_uniform', 
-#                 bias_initializer='zeros', 
-##                 kernel_regularizer=None, 
-##                 bias_regularizer=None, 
-##                 activity_regularizer=None, 
-##                 kernel_constraint=None, 
+#                 activation='relu',
+#                 strides=2,
+#                 use_bias=True,
+#                 kernel_initializer='glorot_uniform',
+#                 bias_initializer='zeros',
+##                 kernel_regularizer=None,
+##                 bias_regularizer=None,
+##                 activity_regularizer=None,
+##                 kernel_constraint=None,
 ##                 bias_constraint=None
 #))
 #model.add(BatchNormalization(axis = -1))
@@ -159,19 +143,19 @@ model.add(Dropout(0.1))
 #model.add(Dense(n_dense_2, activation='relu'))
 model.add(Dense(1, kernel_initializer='normal',
                 use_bias = True,
-                activation=None))	
+                activation=None))
 model.summary()
 
 
 #%%
-# Compile model	
+# Compile model
 model.compile(loss=['mean_squared_error'],
               metrics = ['mean_squared_error','mean_absolute_percentage_error'],
               optimizer='adam')
-model.fit(X_train, y_train,  
-          batch_size=batch_size,      
-          epochs=epochs,          
-          verbose=1,          
+model.fit(X_train, y_train,
+          batch_size=batch_size,
+          epochs=epochs,
+          verbose=1,
           validation_data=(X_test, y_test))
 score = model.evaluate(X_test, y_test, verbose=0)
 

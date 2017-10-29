@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar 20 18:15:52 2017
-
-@author: Matteo
-"""
 from keras.layers.convolutional import Conv1D
 import pickle
 import numpy as np
@@ -22,13 +16,13 @@ from random import shuffle
 
 with open('y_noised_class1.pickle', 'rb') as fl:
     y1 = pickle.load(fl)
- 
+
 with open('y_noised_class2.pickle', 'rb') as fl:
     y2 = pickle.load(fl)
 
 with open('y_noised_class3.pickle', 'rb') as fl:
     y3 = pickle.load(fl)
-   
+
 y = np.concatenate((y1,y2,y3))
 
 classes = np.concatenate((np.ones(len(y1),dtype = np.int8),np.ones(len(y2),\
@@ -83,20 +77,20 @@ def class_to_one_hot(y,categories_number):
 X_train = y_s[0:int(p*len(y_s))]
 X_test = y_s[int(p*len(y_s)) + 1:]
 label_train = c_s[0:int(p*len(y_s))]
-label_test = c_s[int(p*len(y_s)) + 1:] 
+label_test = c_s[int(p*len(y_s)) + 1:]
 y_train = class_to_one_hot(label_train,3)
 y_test = class_to_one_hot(label_test,3)
 X_train2 = np.reshape(X_train, (X_train.shape[0],X_train.shape[1],1))
 X_test2 = np.reshape(X_test, (X_test.shape[0],X_test.shape[1],1))
 
-# %%                
-batch_size = 100                
+# %%
+batch_size = 100
 print('Train CNN...')
-model_cnn.fit(X_train2, y_train, 
+model_cnn.fit(X_train2, y_train,
           batch_size=batch_size,
           nb_epoch=10,
           validation_data=(X_test2, y_test),shuffle = False)
-score_cnn, acc_cnn = model_cnn.evaluate(X_test2, y_test, 
+score_cnn, acc_cnn = model_cnn.evaluate(X_test2, y_test,
                             batch_size=32)
 print('Test score:', score_cnn)
 print('Test accuracy:', acc_cnn)

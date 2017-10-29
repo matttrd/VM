@@ -6,8 +6,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from scipy.signal import detrend
-  # for reproducibility
-
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.layers import Conv1D, AveragePooling1D, BatchNormalization
@@ -66,7 +64,7 @@ data_X_1 = np.reshape(data_X,(1747*54,2048))
 k = 100
 #PCA
 pca = PCA(n_components = k)
-X_new = pca.fit_transform(data_X_1) 
+X_new = pca.fit_transform(data_X_1)
 ev = pca.explained_variance_ratio_
 data_X = np.reshape(X_new,(1747,54,k))
 
@@ -101,7 +99,7 @@ a2 = 2
 a3 = 2
 am = 2
 am2 = 2
-am3 = 2    
+am3 = 2
 batch_size = 32
 epochs = 150
 #n_dense_1 = 30
@@ -112,16 +110,16 @@ epochs = 150
 model = Sequential()
 model.add(Conv1D(filter_depth,
                  kernel_size= a,
-                 activation='relu', 
-                 strides = 2, 
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides = 2,
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None,
                  input_shape=(k,54)))
 #                 input_shape=(54,k)))
@@ -130,32 +128,32 @@ model.add(Conv1D(filter_depth,
 model.add(AveragePooling1D(pool_size=am))
 model.add(Conv1D(filter_depth2,
                  kernel_size=(a2),
-                 activation='relu', 
+                 activation='relu',
                  strides=2,
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(BatchNormalization(axis = -1))
 model.add(AveragePooling1D(pool_size=am2))
 model.add(Conv1D(filter_depth3,
                  kernel_size=a3,
-                 activation='relu', 
-                 strides=1, 
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides=1,
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(BatchNormalization(axis = -1))
@@ -168,7 +166,7 @@ model.add(Dropout(0.1))
 #model.add(Dense(n_dense_2, activation='relu'))
 model.add(Dense(1, kernel_initializer='normal',
                 use_bias = True,
-                activation = None))	
+                activation = None))
 
 
 def r_score_metric(y_true, y_pred):
@@ -176,13 +174,13 @@ def r_score_metric(y_true, y_pred):
     y_pred = K.tensorflow_backend._to_tensor(y_pred, dtype = tf.float32)
 #    return  1 - K.sum(y_true - y_pred)
     return  1 - K.sum((y_true - y_pred)**2)/(K.sum((y_true - K.mean(y_true))**2))
-    
+
 def max_error(y_true, y_pred):
     tnf = K.tensorflow_backend
     y_true = tnf._to_tensor(y_true, dtype = tf.float32)
     y_pred = tnf._to_tensor(y_pred, dtype = tf.float32)
     return K.max(K.abs((y_true-y_pred)))
-    
+
 def mape(y_true, y_pred):
     tnf = K.tensorflow_backend
     y_true = tnf._to_tensor(y_true, dtype = tf.float32)
@@ -195,12 +193,12 @@ model.compile(loss=['mean_squared_error'],
 
 initial_weights = model.get_weights()
 #%%
-# Compile model	
+# Compile model
 
 #
 #model = KerasRegressor(build_fn = create_model(filter_depth, filter_depth2, filter_depth3,a,a2,a3,am,
-#                 am2,am3,n_dense_1, k = k), 
-#                        epochs = epochs, 
+#                 am2,am3,n_dense_1, k = k),
+#                        epochs = epochs,
 #                        batch_size = batch_size,
 #                        verbose = 1)
 #
@@ -224,16 +222,16 @@ frac = 1.0/n_splits*(n_splits - 1)
 #    y_train = data_Y[train_idx]
 #    X_test = data_X[test_idx,:,:]
 #    y_test = data_Y[test_idx]
-#    model.fit(X_train, y_train,  
-#              batch_size=batch_size,      
-#              epochs=epochs,          
-#              verbose=1,          
+#    model.fit(X_train, y_train,
+#              batch_size=batch_size,
+#              epochs=epochs,
+#              verbose=1,
 #              validation_data=(X_test, y_test))
 #    score = model.evaluate(X_test, y_test, verbose=0)
 #    score_vec[it] = score[-1]
 #    print('R: ', score[-1])
 #    it+=1
-#    
+#
 
 N = len(data_X)
 score_vec = np.zeros((n_splits,1))
@@ -246,10 +244,10 @@ score_vec = np.zeros((n_splits,1))
 #    y_train = data_Y[train_idx]
 #    X_test = data_X[test_idx]
 #    y_test = data_Y[test_idx]
-#    model.fit(X_train, y_train,  
-#              batch_size=batch_size,      
-#              epochs=epochs,          
-#              verbose=1,          
+#    model.fit(X_train, y_train,
+#              batch_size=batch_size,
+#              epochs=epochs,
+#              verbose=1,
 #              validation_data=(X_test, y_test))
 #    score = model.evaluate(X_test, y_test, verbose=0)
 #    score_vec[i] = score[-1]
@@ -279,20 +277,20 @@ for i in range(n_splits):
     y_test = data_Y[test_idx]
     y_test -= meany
     model.set_weights(initial_weights)
-    model.fit(X_train, y_train,  
-              batch_size=batch_size,      
-              epochs=epochs,          
-              verbose=1,          
+    model.fit(X_train, y_train,
+              batch_size=batch_size,
+              epochs=epochs,
+              verbose=1,
               validation_data=(X_test, y_test))
-    model.fit(X_train, y_train,  
-              batch_size=batch_size,      
-              epochs=epochs,          
-              verbose=1,          
+    model.fit(X_train, y_train,
+              batch_size=batch_size,
+              epochs=epochs,
+              verbose=1,
               validation_data=(X_test, y_test))
-    model.fit(X_train, y_train,  
-          batch_size=batch_size,      
-          epochs=epochs,          
-          verbose=1,          
+    model.fit(X_train, y_train,
+          batch_size=batch_size,
+          epochs=epochs,
+          verbose=1,
           validation_data=(X_test, y_test))
     score = model.evaluate(X_test, y_test, verbose=0)
     y_pred = np.reshape(model.predict(X_test), (len(y_test),1))
@@ -309,7 +307,7 @@ for i in range(n_splits):
     r2tot.append(score[2])
     maetot.append(score[3])
     mapetot.append(score[4])
-    
+
     print('R: ', score[2])
     print('MSE:', score[0])
     print('max_error:', score[3])

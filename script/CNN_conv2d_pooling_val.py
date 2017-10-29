@@ -1,3 +1,7 @@
+"""
+Application 2D convulution where input data is seen as an "image", i.e. a function f:R^2 -> R
+"""
+
 from __future__ import print_function
 import numpy as np
 import pandas as pd
@@ -6,8 +10,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from scipy.signal import detrend
-  # for reproducibility
-
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.layers import Conv1D, AveragePooling1D, BatchNormalization
@@ -68,7 +70,7 @@ data_X_1 = np.reshape(data_X,(1747*54,2048))
 k = 50
 #PCA
 pca = PCA(n_components = k)
-X_new = pca.fit_transform(data_X_1) 
+X_new = pca.fit_transform(data_X_1)
 ev = pca.explained_variance_ratio_
 data_X = np.reshape(X_new,(1747,54,k,1))
 
@@ -103,7 +105,7 @@ a2 = 2
 a3 = 2
 am = 2
 am2 = 2
-am3 = 2    
+am3 = 2
 #n_dense_1 = 30
 #n_dense_2 = 20
 #n_dense_3 = 10
@@ -112,16 +114,16 @@ am3 = 2
 model = Sequential()
 model.add(Conv2D(filter_depth,
                  kernel_size= (4,16),
-                 activation='relu', 
-                 strides = 2, 
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides = 2,
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None,
                  input_shape=(k,54, 1)))
 #                 input_shape=(54,k)))
@@ -129,32 +131,32 @@ model.add(Conv2D(filter_depth,
 model.add(AveragePooling2D(pool_size=(am,am)))
 model.add(Conv2D(filter_depth2,
                  kernel_size=(4,8),
-                 activation='relu', 
+                 activation='relu',
                  strides=2,
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(BatchNormalization(axis = -1))
 model.add(AveragePooling2D(pool_size=(am2,am2)))
 model.add(Conv2D(filter_depth3,
                  kernel_size=(3,3),
-                 activation='relu', 
-                 strides=1, 
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides=1,
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(BatchNormalization(axis = -1))
@@ -167,22 +169,22 @@ model.add(Dropout(0.1))
 #model.add(Dense(n_dense_2, activation='relu'))
 model.add(Dense(1, kernel_initializer='normal',
                 use_bias = True,
-                activation = None))	
+                activation = None))
 
 # Model Max Pooling
 model_1 = Sequential()
 model_1.add(Conv2D(filter_depth,
                  kernel_size= (4,16),
-                 activation='relu', 
-                 strides = 2, 
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides = 2,
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None,
                  input_shape=(k,54, 1)))
 #                 input_shape=(54,k)))
@@ -190,32 +192,32 @@ model_1.add(Conv2D(filter_depth,
 model_1.add(MaxPooling2D(pool_size=(am,am)))
 model_1.add(Conv2D(filter_depth2,
                  kernel_size=(4,8),
-                 activation='relu', 
+                 activation='relu',
                  strides=2,
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(BatchNormalization(axis = -1))
 model_1.add(MaxPooling2D(pool_size=(am2,am2)))
 model_1.add(Conv2D(filter_depth3,
                  kernel_size=(3,3),
-                 activation='relu', 
-                 strides=1, 
-                 padding='same', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides=1,
+                 padding='same',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(BatchNormalization(axis = -1))
@@ -228,7 +230,7 @@ model_1.add(Dropout(0.1))
 #model.add(Dense(n_dense_2, activation='relu'))
 model_1.add(Dense(1, kernel_initializer='normal',
                 use_bias = True,
-                activation = None))	
+                activation = None))
 
 model.summary()
 model_1.summary()
@@ -238,13 +240,13 @@ def r_score_metric(y_true, y_pred):
     y_pred = K.tensorflow_backend._to_tensor(y_pred, dtype = tf.float32)
 #    return  1 - K.sum(y_true - y_pred)
     return  1 - K.sum((y_true - y_pred)**2)/(K.sum((y_true - K.mean(y_true))**2))
-    
+
 def max_error(y_true, y_pred):
     tnf = K.tensorflow_backend
     y_true = tnf._to_tensor(y_true, dtype = tf.float32)
     y_pred = tnf._to_tensor(y_pred, dtype = tf.float32)
     return K.max(K.abs((y_true-y_pred)))
-    
+
 def mape(y_true, y_pred):
     tnf = K.tensorflow_backend
     y_true = tnf._to_tensor(y_true, dtype = tf.float32)
@@ -264,12 +266,12 @@ initial_weights_1 = model_1.get_weights()
 models = [model, model_1]
 initial_weights_vec = [initial_weights, initial_weights_1]
 #%%
-# Compile model	
+# Compile model
 
 #
 #model = KerasRegressor(build_fn = create_model(filter_depth, filter_depth2, filter_depth3,a,a2,a3,am,
-#                 am2,am3,n_dense_1, k = k), 
-#                        epochs = epochs, 
+#                 am2,am3,n_dense_1, k = k),
+#                        epochs = epochs,
 #                        batch_size = batch_size,
 #                        verbose = 1)
 #
@@ -299,18 +301,18 @@ for k1 in range(K1):
     for k2 in range(K2):
         print("Inner validation: " + str(k2) + "/" + str(K2))
         X_train_val, X_val, y_train_val, y_val = split(X_train, y_train, test_size = q1)
-        for m in range(nmodels): 
+        for m in range(nmodels):
             mod = models[m]
             mod.set_weights(initial_weights_vec[m])
-            mod.fit(X_train_val, y_train_val,  
-                      batch_size=batch_size,      
-                      epochs=epochs,          
-                      verbose=0,          
+            mod.fit(X_train_val, y_train_val,
+                      batch_size=batch_size,
+                      epochs=epochs,
+                      verbose=0,
                       validation_data=(X_val, y_val))
-            mod.fit(X_train_val, y_train_val,  
-                      batch_size=batch_size,      
-                      epochs=epochs,          
-                      verbose=0,          
+            mod.fit(X_train_val, y_train_val,
+                      batch_size=batch_size,
+                      epochs=epochs,
+                      verbose=0,
                       validation_data=(X_val, y_val))
             score = mod.evaluate(X_val, y_val, verbose=0)
             msetot_val[k2,m] = score[0]
@@ -326,22 +328,22 @@ for k1 in range(K1):
 #    idxes = np.abs(y_pred-y_test) > 1.8
 #    plt.plot(y_pred[idxes],y_test[idxes], 'ro')
     mod = models[min_index]
-    mod.fit(X_train, y_train,  
-                      batch_size=batch_size,      
-                      epochs=epochs,          
-                      verbose=0,          
+    mod.fit(X_train, y_train,
+                      batch_size=batch_size,
+                      epochs=epochs,
+                      verbose=0,
                       validation_data=(X_test, y_test))
-    mod.fit(X_train, y_train,  
-                      batch_size=batch_size,      
-                      epochs=epochs,          
-                      verbose=0,          
+    mod.fit(X_train, y_train,
+                      batch_size=batch_size,
+                      epochs=epochs,
+                      verbose=0,
                       validation_data=(X_test, y_test))
     score = mod.evaluate(X_test, y_test, verbose=0)
     msetot.append(score[0])
     r2tot.append(score[2])
     maetot.append(score[3])
     mapetot.append(score[4])
-    
+
     print('R: ', score[2])
     print('MSE:', score[0])
     print('max_error:', score[3])
@@ -352,8 +354,8 @@ plt.figure()
 y_pred = model.predict(X_test)
 plt.scatter(y_pred,y_test)
 
-print(str(np.array(msetot).mean()) + " " + 
-" " + str(np.array(msetot).std()) + 
+print(str(np.array(msetot).mean()) + " " +
+" " + str(np.array(msetot).std()) +
 " " + str(np.array(r2tot).mean()) +
 " " + str(np.array(r2tot).std()) +
 " " + str(np.array(maetot).mean()) +

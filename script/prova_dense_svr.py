@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 19 22:37:16 2017
-
-@author: Matteo
-
-"""
 from __future__ import print_function
 import numpy as np
 import pandas as pd
@@ -59,7 +52,7 @@ data_X_1 = np.reshape(data,(1747,54*2048))
 k = 100
 #PCA
 pca = PCA(n_components = k)
-data_X = pca.fit_transform(data_X_1) 
+data_X = pca.fit_transform(data_X_1)
 
 ##%%
 #n_jobs = 6
@@ -95,7 +88,7 @@ n_dense_4 = 30
 
 
 model = Sequential()
-model.add(Dense(n_dense_1, 
+model.add(Dense(n_dense_1,
                 activation='relu',
                 input_shape = (k,)))
 model.add(Dense(n_dense_2, activation='relu'))
@@ -108,12 +101,12 @@ model.add(Dropout(0.1))
 #model.add(Dropout(0.1))
 model.add(Dense(1, kernel_initializer='normal',
                 use_bias = True,
-                activation = None))	
+                activation = None))
 model.summary()
 
 
 #%%
-# Compile model	
+# Compile model
 def r_score_metric(y_true, y_pred):
     y_true = K.tensorflow_backend._to_tensor(y_true, dtype = tf.float32)
     y_pred = K.tensorflow_backend._to_tensor(y_pred, dtype = tf.float32)
@@ -124,10 +117,10 @@ model.compile(loss=['mean_squared_error'],
               metrics = ['mean_squared_error', r_score_metric],
               optimizer='adam')
 K.get_session().run(tf.global_variables_initializer())
-model.fit(X_train, y_train,  
-          batch_size=batch_size,      
-          epochs=epochs,          
-          verbose=1,          
+model.fit(X_train, y_train,
+          batch_size=batch_size,
+          epochs=epochs,
+          verbose=1,
           validation_data=(X_test, y_test))
 score = model.evaluate(X_test, y_test, verbose=0)
 print('R: ', score[-1])

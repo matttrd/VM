@@ -1,11 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 22 16:00:59 2016
-
-@author: chiara
-
-Train recurrent convolutional network 
+Train recurrent convolutional network
 """
 from __future__ import print_function
 import numpy as np
@@ -75,68 +71,68 @@ n_dense_1 = 50
 model = Sequential()
 model.add(Conv2D(filter_depth,
                  kernel_size=(a, b),
-                 activation='relu', 
-                 strides=(3, 20), 
-                 padding='same', 
-                 data_format='channels_first', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides=(3, 20),
+                 padding='same',
+                 data_format='channels_first',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None,
                  input_shape=(1,54,2048)))
 model.add(AveragePooling2D(pool_size=(am, bmp),data_format='channels_first'))
 model.add(Conv2D(filter_depth2,
                  kernel_size=(a2, b2),
-                 activation='relu', 
-                 strides=(1, 2), 
-                 padding='same', 
-                 data_format='channels_first', 
-                 use_bias=True, 
-                 kernel_initializer='glorot_uniform', 
-                 bias_initializer='zeros', 
-#                 kernel_regularizer=None, 
-#                 bias_regularizer=None, 
-#                 activity_regularizer=None, 
-#                 kernel_constraint=None, 
+                 activation='relu',
+                 strides=(1, 2),
+                 padding='same',
+                 data_format='channels_first',
+                 use_bias=True,
+                 kernel_initializer='glorot_uniform',
+                 bias_initializer='zeros',
+#                 kernel_regularizer=None,
+#                 bias_regularizer=None,
+#                 activity_regularizer=None,
+#                 kernel_constraint=None,
 #                 bias_constraint=None
 ))
 #model.add(AveragePooling2D(pool_size=(am2, bmp2),data_format='channels_first'))
 #model.add(Conv2D(filter_depth3,
 #                 kernel_size=(a3, b3),
-#                 activation='relu', 
-#                 strides=(1, 1), 
-#                 padding='same', 
-#                 data_format='channels_first', 
-#                 use_bias=True, 
-#                 kernel_initializer='glorot_uniform', 
-#                 bias_initializer='zeros', 
-##                 kernel_regularizer=None, 
-##                 bias_regularizer=None, 
-##                 activity_regularizer=None, 
-##                 kernel_constraint=None, 
+#                 activation='relu',
+#                 strides=(1, 1),
+#                 padding='same',
+#                 data_format='channels_first',
+#                 use_bias=True,
+#                 kernel_initializer='glorot_uniform',
+#                 bias_initializer='zeros',
+##                 kernel_regularizer=None,
+##                 bias_regularizer=None,
+##                 activity_regularizer=None,
+##                 kernel_constraint=None,
 ##                 bias_constraint=None
 #))
 model.add(Flatten())
 #model.add(Dropout(0.1))
 model.add(Dense(n_dense_1, activation='relu'))
 model.add(Dropout(0.1))
-model.add(Dense(1, kernel_initializer='normal',activation=None))	
+model.add(Dense(1, kernel_initializer='normal',activation=None))
 model.summary()
 
 
 #%%
-# Compile model	
+# Compile model
 model.compile(loss=['mean_squared_error'],
               metrics = ['mean_squared_error','mean_absolute_percentage_error'],
               optimizer='adam')
-model.fit(X_train, y_train,  
-          batch_size=batch_size,      
-          epochs=epochs,          
-          verbose=1,          
+model.fit(X_train, y_train,
+          batch_size=batch_size,
+          epochs=epochs,
+          verbose=1,
           validation_data=(X_test, y_test))
 score = model.evaluate(X_test, y_test, verbose=0)
 
